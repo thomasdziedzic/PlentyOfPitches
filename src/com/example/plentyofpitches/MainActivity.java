@@ -10,7 +10,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
 public class MainActivity extends Activity implements OnCheckedChangeListener {
-	private String itemType = "PROBLEM";
+	private String itemType = PROBLEM_ITEM;
 
 	public final static String ITEM_TYPE_KEY = "com.example.plentyofpitches.ITEM_TYPE_KEY";
 	public final static String PROBLEM_ITEM = "Problems";
