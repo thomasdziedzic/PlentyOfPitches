@@ -3,14 +3,12 @@ package com.example.plentyofpitches;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,28 +21,23 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-public class NewItemActivity extends Activity {
-	private String urlItem;
-	public final static String ITEM_ID_KEY = "com.example.plentyofpitches.ITEM_ID_KEY";
+public class ExistingItemActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_item);
+		setContentView(R.layout.activity_existing_item);
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
 		Intent intent = getIntent();
-		String message = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
+		String itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
+		int id = intent.getIntExtra(NewItemActivity.ITEM_ID_KEY, 0);
 		
-		TextView itemType = (TextView) findViewById(R.id.itemType);
-		itemType.setText(message);
-		
-		urlItem = message;
+		ReadItem readItem = new ReadItem(this);
+		readItem.execute("http://50.116.4.81:5000/" + itemType + "/" + id);
 	}
 
 	/**
@@ -59,7 +52,7 @@ public class NewItemActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_item, menu);
+		getMenuInflater().inflate(R.menu.existing_item, menu);
 		return true;
 	}
 
@@ -80,50 +73,24 @@ public class NewItemActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void save(View view) throws JSONException, IOException {
-		CreateItem google = new CreateItem(this, urlItem);
-		google.execute("http://50.116.4.81:5000/" + urlItem);
-	}
-	
-	public class CreateItem extends AsyncTask<String, Void, String> {
+	public class ReadItem extends AsyncTask<String, Void, String> {
 		Context ctx;
-		String itemType;
 		
-		CreateItem(Context ctx, String itemType) {
+		ReadItem(Context ctx) {
 			super();
 			
 			this.ctx = ctx;
-			this.itemType = itemType;
 		}
 		protected String doInBackground(String... urls) {
 			String url = urls[0];
 			
 			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+			HttpGet get = new HttpGet(url);
 			
 			String ret = "";
 			
-			EditText descriptionEditText = (EditText) findViewById(R.id.description);
-			String description = descriptionEditText.getText().toString();
-
-			JSONObject requestObject = new JSONObject();
 			try {
-				requestObject.put("description", description);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String requestString = requestObject.toString();
-			
-			try {
-				post.setEntity(new StringEntity(requestString));
-			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			try {
-				HttpResponse response = client.execute(post);
+				HttpResponse response = client.execute(get);
 				
 				StatusLine statusLine = response.getStatusLine();
 				int statusCode = statusLine.getStatusCode();
@@ -146,22 +113,16 @@ public class NewItemActivity extends Activity {
 		}
 		
 		protected void onPostExecute(String result) {
-			EditText editText = (EditText) findViewById(R.id.description);
-			editText.setText(result);
-			
 			try {
 				JSONObject jObject = new JSONObject(result);
-				int id = jObject.getInt("id");
+				String description = jObject.getString("description");
 				
-				Intent intent = new Intent(ctx, ExistingItemActivity.class);
-				intent.putExtra(MainActivity.ITEM_TYPE_KEY, this.itemType);
-				intent.putExtra(NewItemActivity.ITEM_ID_KEY, id);
-		    	startActivity(intent);
+				TextView editText = (TextView) findViewById(R.id.textView2);
+				editText.setText(description);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
 }

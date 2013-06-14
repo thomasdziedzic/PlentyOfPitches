@@ -8,32 +8,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".NewItemActivity" >
+    tools:context=".ExistingItemActivity" >
 
     <TextView
-        android:id="@+id/itemType"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Problem or Idea"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/description"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.91"
-        android:ems="10"
-        android:hint="Description"
-        android:inputType="textMultiLine" >
-
-        <requestFocus />
-    </EditText>
+        android:layout_weight="0.92"
+        android:hint="Description" />
 
     <Button
-        android:id="@+id/save_button"
-        android:layout_width="match_parent"
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="save"
-        android:text="Save" />
+        android:text="Delete" />
 
 </LinearLayout>

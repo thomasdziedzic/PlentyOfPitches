@@ -8,6 +8,8 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -25,6 +27,14 @@
         <activity
             android:name="com.example.plentyofpitches.NewItemActivity"
             android:label="@string/title_activity_new_item"
+            android:parentActivityName="com.example.plentyofpitches.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.plentyofpitches.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.plentyofpitches.ExistingItemActivity"
+            android:label="@string/title_activity_existing_item"
             android:parentActivityName="com.example.plentyofpitches.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
