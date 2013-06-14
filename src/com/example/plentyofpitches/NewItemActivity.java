@@ -146,9 +146,6 @@ public class NewItemActivity extends Activity {
 		}
 		
 		protected void onPostExecute(String result) {
-			EditText editText = (EditText) findViewById(R.id.description);
-			editText.setText(result);
-			
 			try {
 				JSONObject jObject = new JSONObject(result);
 				int id = jObject.getInt("id");
