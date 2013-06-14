@@ -40,6 +40,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.plentyofpitches.MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.plentyofpitches.BrowseItemActivity"
+            android:label="@string/title_activity_browse_item" >
+        </activity>
     </application>
 
 </manifest>
