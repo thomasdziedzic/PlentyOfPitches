@@ -17,4 +17,10 @@
         android:text="problem or idea"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
 </LinearLayout>
