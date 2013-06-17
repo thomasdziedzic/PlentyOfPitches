@@ -39,6 +39,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
     	startActivity(intent);
     }
     
+    public void browseItem(View view) {
+    	Intent intent = new Intent(this, BrowseItemActivity.class);
+    	intent.putExtra(ITEM_TYPE_KEY, itemType);
+    	startActivity(intent);
+    }
+    
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     	itemType = !isChecked ? PROBLEM_ITEM : IDEA_ITEM;
     }
