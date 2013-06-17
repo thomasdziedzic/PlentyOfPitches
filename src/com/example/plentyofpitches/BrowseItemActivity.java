@@ -100,11 +100,13 @@ public class BrowseItemActivity extends Activity {
 				
 				JSONArray jArray = new JSONArray(result);
 				List<JSONObject> jObjects = new ArrayList<JSONObject>();
+				List<String> descriptions = new ArrayList<String>();
 				for(Integer i = 0; i < jArray.length(); i++) {
 					jObjects.add(jArray.getJSONObject(i));
+					descriptions.add(jArray.getJSONObject(i).getString("description"));
 				}
 				
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.ctx, android.R.layout.simple_list_item_1, numbers);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.ctx, android.R.layout.simple_list_item_1, descriptions);
 				//adapter.addAll(jObjects);	
 				
 				ListView listView = (ListView) findViewById(R.id.listView1);
