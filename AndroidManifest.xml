@@ -44,6 +44,10 @@
             android:name="com.example.plentyofpitches.BrowseItemActivity"
             android:label="@string/title_activity_browse_item" >
         </activity>
+        <activity
+            android:name="com.example.plentyofpitches.SearchItemActivity"
+            android:label="@string/title_activity_search_item" >
+        </activity>
     </application>
 
 </manifest>
