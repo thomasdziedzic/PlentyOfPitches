@@ -21,7 +21,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +51,35 @@ public class BrowseItemActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.browse_item, menu);
 		return true;
+	}
+	
+	public class JArrayAdapter extends ArrayAdapter<JSONObject> {
+		private final Context context;
+		private final List<JSONObject> values;
+		
+		public JArrayAdapter(Context context, List<JSONObject> values) {
+			super(context, R.layout.item_row, values);
+			this.context = context;
+			this.values = values;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater  inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View rowView = inflater.inflate(R.layout.item_row, parent, false);
+			TextView textView = (TextView) rowView.findViewById(R.id.textView1);
+			JSONObject value = values.get(position);
+			
+			try {
+				textView.setText(value.getString("description"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return rowView;
+		}
 	}
 
 	public class BrowseItem extends AsyncTask<String, Void, String> {
@@ -92,12 +124,6 @@ public class BrowseItemActivity extends Activity {
 		
 		protected void onPostExecute(String result) {
 			try {
-				final String[] numbers = new String[] { "one", "two", "three",
-		            "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
-		            "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
-		            "seventeen", "eighteen", "nineteen", "twenty", "twenty one",
-		            "twenty two" };
-				
 				JSONArray jArray = new JSONArray(result);
 				List<JSONObject> jObjects = new ArrayList<JSONObject>();
 				List<String> descriptions = new ArrayList<String>();
@@ -106,8 +132,7 @@ public class BrowseItemActivity extends Activity {
 					descriptions.add(jArray.getJSONObject(i).getString("description"));
 				}
 				
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.ctx, android.R.layout.simple_list_item_1, descriptions);
-				//adapter.addAll(jObjects);	
+				JArrayAdapter adapter = new JArrayAdapter(this.ctx, jObjects);
 				
 				ListView listView = (ListView) findViewById(R.id.listView1);
 				listView.setAdapter(adapter);
