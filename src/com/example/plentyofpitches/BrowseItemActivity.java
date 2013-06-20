@@ -30,6 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+// TODO we need to reload the list onResume from the
+// server in case the user deletes an item in the list
 public class BrowseItemActivity extends Activity {
 	private String itemType;
 
