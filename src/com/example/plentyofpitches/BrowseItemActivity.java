@@ -25,11 +25,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class BrowseItemActivity extends Activity {
+	private String itemType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +39,33 @@ public class BrowseItemActivity extends Activity {
 		setContentView(R.layout.activity_browse_item);
 		
 		Intent intent = getIntent();
-		String itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
+		itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
 		
 		TextView textView = (TextView) findViewById(R.id.textView1);
 		textView.setText(itemType);
 		
 		BrowseItem readItem = new BrowseItem(this);
 		readItem.execute("http://50.116.4.81:5000/" + itemType + "s");
+		
+		ListView listView = (ListView) findViewById(R.id.listView1);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+				final JSONObject value = (JSONObject) parent.getItemAtPosition(position);
+				try {
+					final int itemId = value.getInt("id");
+					final Context ctx = parent.getContext();
+					
+					Intent intent = new Intent(ctx, ExistingItemActivity.class);
+					intent.putExtra(MainActivity.ITEM_TYPE_KEY, itemType);
+					intent.putExtra(NewItemActivity.ITEM_ID_KEY, itemId);
+			    	startActivity(intent);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
