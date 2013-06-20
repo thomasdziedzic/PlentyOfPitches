@@ -8,6 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
@@ -21,9 +22,12 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class ExistingItemActivity extends Activity {
+	private int id;
+	private String itemType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +37,8 @@ public class ExistingItemActivity extends Activity {
 		setupActionBar();
 		
 		Intent intent = getIntent();
-		String itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
-		int id = intent.getIntExtra(NewItemActivity.ITEM_ID_KEY, 0);
+		itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
+		id = intent.getIntExtra(NewItemActivity.ITEM_ID_KEY, 0);
 		
 		ReadItem readItem = new ReadItem(this);
 		readItem.execute("http://50.116.4.81:5000/" + itemType + "/" + id);
@@ -71,6 +75,55 @@ public class ExistingItemActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void delete(View view) {
+		DeleteItem deleteItem = new DeleteItem(this);
+		deleteItem.execute("http://50.116.4.81:5000/" + itemType + "/" + id);
+	}
+	
+	public class DeleteItem extends AsyncTask<String, Void, String> {
+		Context ctx;
+		
+		DeleteItem(Context ctx) {
+			super();
+			
+			this.ctx = ctx;
+		}
+		protected String doInBackground(String... urls) {
+			String url = urls[0];
+			
+			HttpClient client = new DefaultHttpClient();
+			HttpDelete delete = new HttpDelete(url);
+			
+			String ret = "";
+			
+			try {
+				HttpResponse response = client.execute(delete);
+				
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				
+				if (statusCode == 200) {
+					String line = "";
+
+					BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+					while ((line = rd.readLine()) != null) {
+	                    ret += line;
+	                }
+				}
+			} catch (ClientProtocolException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			
+			return ret;
+		}
+		
+		protected void onPostExecute(String result) {
+			finish();
+		}
 	}
 
 	public class ReadItem extends AsyncTask<String, Void, String> {
