@@ -30,8 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-// TODO we need to reload the list onResume from the
-// server in case the user deletes an item in the list
 public class BrowseItemActivity extends Activity {
 	private String itemType;
 
@@ -45,9 +43,6 @@ public class BrowseItemActivity extends Activity {
 		
 		TextView textView = (TextView) findViewById(R.id.textView1);
 		textView.setText(itemType);
-		
-		BrowseItem readItem = new BrowseItem(this);
-		readItem.execute("http://50.116.4.81:5000/" + itemType + "s");
 		
 		ListView listView = (ListView) findViewById(R.id.listView1);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,6 +63,14 @@ public class BrowseItemActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		BrowseItem readItem = new BrowseItem(this);
+		readItem.execute("http://50.116.4.81:5000/" + itemType + "s");
 	}
 
 	@Override
