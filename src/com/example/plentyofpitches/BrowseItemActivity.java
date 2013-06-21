@@ -21,14 +21,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.library.JArrayAdapter;
 
 public class BrowseItemActivity extends Activity {
 	private String itemType;
@@ -80,35 +79,6 @@ public class BrowseItemActivity extends Activity {
 		return true;
 	}
 	
-	public class JArrayAdapter extends ArrayAdapter<JSONObject> {
-		private final Context context;
-		private final List<JSONObject> values;
-		
-		public JArrayAdapter(Context context, List<JSONObject> values) {
-			super(context, R.layout.item_row, values);
-			this.context = context;
-			this.values = values;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater  inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.item_row, parent, false);
-			TextView textView = (TextView) rowView.findViewById(R.id.textView1);
-			JSONObject value = values.get(position);
-			
-			try {
-				textView.setText(value.getString("description"));
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			return rowView;
-		}
-	}
-
 	public class BrowseItem extends AsyncTask<String, Void, String> {
 		Context ctx;
 		
