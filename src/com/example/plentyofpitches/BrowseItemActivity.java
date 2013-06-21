@@ -123,10 +123,8 @@ public class BrowseItemActivity extends Activity {
 			try {
 				JSONArray jArray = new JSONArray(result);
 				List<JSONObject> jObjects = new ArrayList<JSONObject>();
-				List<String> descriptions = new ArrayList<String>();
 				for(Integer i = 0; i < jArray.length(); i++) {
 					jObjects.add(jArray.getJSONObject(i));
-					descriptions.add(jArray.getJSONObject(i).getString("description"));
 				}
 				
 				JArrayAdapter adapter = new JArrayAdapter(this.ctx, jObjects);
