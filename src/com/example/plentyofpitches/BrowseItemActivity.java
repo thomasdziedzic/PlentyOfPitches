@@ -60,9 +60,6 @@ public class BrowseItemActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		
-		//BrowseItem readItem = new BrowseItem(this);
-		//readItem.execute("http://50.116.4.81:5000/" + itemType + "s");
-		
 		final Context self = this;
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get("http://50.116.4.81:5000/" + itemType + "s", new AsyncHttpResponseHandler() {
