@@ -8,5 +8,6 @@
     <string name="title_activity_existing_item">ExistingItemActivity</string>
     <string name="title_activity_browse_item">BrowseItemActivity</string>
     <string name="title_activity_search_item">SearchItemActivity</string>
+    <string name="title_activity_edit_item">EditItemActivity</string>
 
 </resources>

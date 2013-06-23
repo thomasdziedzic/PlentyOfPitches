@@ -29,7 +29,12 @@ public class ExistingItemActivity extends Activity {
 		Intent intent = getIntent();
 		itemType = intent.getStringExtra(MainActivity.ITEM_TYPE_KEY);
 		id = intent.getIntExtra(NewItemActivity.ITEM_ID_KEY, 0);
-
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get("http://50.116.4.81:5000/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
 			@Override
@@ -79,6 +84,13 @@ public class ExistingItemActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void edit(View view) {
+		Intent intent = new Intent(this, EditItemActivity.class);
+		intent.putExtra(MainActivity.ITEM_TYPE_KEY, itemType);
+		intent.putExtra(NewItemActivity.ITEM_ID_KEY, id);
+    	startActivity(intent);
 	}
 	
 	public void delete(View view) {

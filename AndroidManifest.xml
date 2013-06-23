@@ -48,6 +48,10 @@
             android:name="com.example.plentyofpitches.SearchItemActivity"
             android:label="@string/title_activity_search_item" >
         </activity>
+        <activity
+            android:name="com.example.plentyofpitches.EditItemActivity"
+            android:label="@string/title_activity_edit_item" >
+        </activity>
     </application>
 
 </manifest>
