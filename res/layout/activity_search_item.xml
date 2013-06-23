@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/textView1"
-        android:ems="10" >
+        android:ems="10"
+        android:hint="Search Term" >
 
         <requestFocus />
     </EditText>
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText1"
         android:layout_below="@+id/editText1"
+        android:onClick="search"
         android:text="Search" />
 
     <ListView
