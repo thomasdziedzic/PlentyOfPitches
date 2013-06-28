@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.library.HttpUtils;
 import com.example.library.JArrayAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -88,8 +89,8 @@ public class SearchItemActivity extends Activity {
 		}
 		
 		final Context self = this;
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(this, "http://50.116.4.81:5000/search/" + itemType + "s", postBodyEntity, "application/json", new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.post(this, "https://50.116.4.81/search/" + itemType + "s", postBodyEntity, "application/json", new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				try {

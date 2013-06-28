@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.library.HttpUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -87,8 +88,8 @@ public class NewItemActivity extends Activity {
 		String requestString = requestObject.toString();
 		
 		final Context self = this;
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.post(this, "http://50.116.4.81:5000/" + urlItem, new StringEntity(requestString), "application/json", new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.post(this, "https://50.116.4.81/" + urlItem, new StringEntity(requestString), "application/json", new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				try {

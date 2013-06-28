@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.library.HttpUtils;
 import com.example.library.JArrayAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -61,8 +62,8 @@ public class BrowseItemActivity extends Activity {
 		super.onResume();
 		
 		final Context self = this;
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.get("http://50.116.4.81:5000/" + itemType + "s", new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.get("https://50.116.4.81/" + itemType + "s", new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				try {

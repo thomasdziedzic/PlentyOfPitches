@@ -6,6 +6,7 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.library.HttpUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -33,8 +34,8 @@ public class EditItemActivity extends Activity {
 		TextView textView = (TextView) findViewById(R.id.textView1);
 		textView.setText(itemType);
 		
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.get("http://50.116.4.81:5000/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.get("https://50.116.4.81/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				try {
@@ -79,8 +80,8 @@ public class EditItemActivity extends Activity {
 			return;
 		}
 		
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.put(this, "http://50.116.4.81:5000/" + itemType + "/" + id, postBodyEntity, "application/json", new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.put(this, "https://50.116.4.81/" + itemType + "/" + id, postBodyEntity, "application/json", new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				finish();

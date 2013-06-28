@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.library.HttpUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -35,8 +36,8 @@ public class ExistingItemActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.get("http://50.116.4.81:5000/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.get("https://50.116.4.81/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				try {
@@ -94,8 +95,8 @@ public class ExistingItemActivity extends Activity {
 	}
 	
 	public void delete(View view) {
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.delete("http://50.116.4.81:5000/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = HttpUtils.getAsyncHttpClient();
+		client.delete("https://50.116.4.81/" + itemType + "/" + id, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
 				finish();
